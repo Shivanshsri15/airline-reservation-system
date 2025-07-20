@@ -1,0 +1,28 @@
+{
+  "name": "airline-reservation-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node dist/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shivanshsri15/airline-reservation-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Shivanshsri15/airline-reservation-system/issues"
+  },
+  "homepage": "https://github.com/Shivanshsri15/airline-reservation-system#readme",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}
