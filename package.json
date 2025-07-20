@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node dist/main.js"
+    "start": "node dist/main.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Shivanshsri15/airline-reservation-system#readme",
   "devDependencies": {
+    "@types/readline-sync": "^1.4.8",
     "typescript": "^5.8.3"
   },
   "dependencies": {
