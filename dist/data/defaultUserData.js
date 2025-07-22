@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.defaultUserData = void 0;
-const Admin_1 = require("../models/Admin");
-const Passenger_1 = require("../models/Passenger");
+const Admin_1 = require("../models/Classes/Admin");
+const Passenger_1 = require("../models/Classes/Passenger");
 exports.defaultUserData = [
     new Admin_1.Admin("Admin One", "admin123"),
     new Admin_1.Admin("Admin Two", "admin456"),

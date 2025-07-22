@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const LoginSystem_1 = require("./services/LoginSystem");
+const AdminDashboard_1 = require("./dashboards/AdminDashboard");
+const Admin_1 = require("./models/Classes/Admin");
+const LoginSystem_1 = require("./systems/LoginSystem");
 const readline_sync_1 = __importDefault(require("readline-sync"));
 const loginSystem = new LoginSystem_1.LoginSystem();
 const mainMenu = () => {
@@ -33,18 +35,28 @@ const mainMenu = () => {
                 const adminName = readline_sync_1.default.question("-> Enter your username: ");
                 const adminPassword = readline_sync_1.default.question("-> Enter your password: ", { hideEchoBack: true });
                 loginSystem.registerAdmin(adminName, adminPassword);
+                (0, AdminDashboard_1.adminDashboard)(loginSystem);
                 break;
             case "3":
                 const loginUserName = readline_sync_1.default.question("-> Enter your username: ");
                 const loginPassword = readline_sync_1.default.question("-> Enter your password: ", { hideEchoBack: true });
                 const user = loginSystem.loginUser(loginUserName, loginPassword);
+                if (user instanceof Admin_1.Admin) {
+                    console.log("");
+                    console.log("=========================================");
+                    console.log(`|| Welcome Admin ${user.getUserName()}! ||`);
+                    console.log("=========================================");
+                    (0, AdminDashboard_1.adminDashboard)(loginSystem);
+                }
                 if (user) {
+                    console.log("");
                     console.log("=========================================");
                     console.log(`|| User ID: ${user.getId()}                  ||`);
                     console.log(`|| Username: ${user.getUserName()}          ||`);
                     console.log(`|| Role: ${user.getRole()}                  ||`);
                     console.log(`|| Registered Date: ${user.getRegisteredDate()} ||`);
                     console.log("=========================================");
+                    console.log("");
                 }
                 break;
             case "4":

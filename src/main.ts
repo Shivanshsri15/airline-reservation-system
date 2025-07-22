@@ -1,11 +1,13 @@
-import { LoginSystem } from "./services/LoginSystem";
+import { adminDashboard } from "./dashboards/AdminDashboard";
+import { Admin } from "./models/Classes/Admin";
+import { LoginSystem } from "./systems/LoginSystem";
 import readlineSync from "readline-sync";
 const loginSystem = new LoginSystem();
 
 const mainMenu = (): void => {
     let choice: string;
 
-    do {
+    do {        
         console.log("");
         console.log("");
         console.log("=========================================");
@@ -30,11 +32,19 @@ const mainMenu = (): void => {
                 const adminName = readlineSync.question("-> Enter your username: ");
                 const adminPassword = readlineSync.question("-> Enter your password: ", { hideEchoBack: true });
                 loginSystem.registerAdmin(adminName, adminPassword);
+                adminDashboard(loginSystem);
                 break;
             case "3":
                 const loginUserName = readlineSync.question("-> Enter your username: ");
                 const loginPassword = readlineSync.question("-> Enter your password: ", { hideEchoBack: true });
                 const user = loginSystem.loginUser(loginUserName, loginPassword);
+                if (user instanceof Admin) {
+                    console.log("");
+                    console.log("=========================================");
+                    console.log(`|| Welcome Admin ${user.getUserName()}! ||`);
+                    console.log("=========================================");
+                    adminDashboard(loginSystem);
+                }
                 if (user) {
                     console.log("")
                     console.log("=========================================");

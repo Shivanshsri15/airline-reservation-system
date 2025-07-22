@@ -1,6 +1,6 @@
-import { generateIdFunc } from "../utils/generateIds";
-import { getRegisterDate } from "../utils/getRegisterDate";
-import { User } from "./User"; 
+import { generateIdFunc } from "../../utils/generateIds";
+import { getRegisterDate } from "../../utils/getRegisterDate";
+import { User } from "../User"; 
 export class Passenger implements User {
     protected id: string;
     protected registeredDate: string;

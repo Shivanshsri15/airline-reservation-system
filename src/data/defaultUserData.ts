@@ -1,5 +1,5 @@
-import { Admin } from "../models/Admin";
-import { Passenger } from "../models/Passenger";
+import { Admin } from "../models/Classes/Admin";
+import { Passenger } from "../models/Classes/Passenger";
 import { User } from "../models/User";
 export const defaultUserData: User[] = [
     new Admin("Admin One", "admin123"),
