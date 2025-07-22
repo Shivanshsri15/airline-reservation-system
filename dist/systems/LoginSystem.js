@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginSystem = void 0;
 const defaultUserData_1 = require("../data/defaultUserData");
-const Admin_1 = require("../models/Admin");
-const Passenger_1 = require("../models/Passenger");
+const Admin_1 = require("../models/Classes/Admin");
+const Passenger_1 = require("../models/Classes/Passenger");
 class LoginSystem {
     constructor() {
         this.users = [...defaultUserData_1.defaultUserData];
@@ -47,7 +47,7 @@ class LoginSystem {
         console.log("=========================================");
     }
     loginUser(userName, password) {
-        const user = this.users.find(user => user.getUserName() === userName && user.getPassword() === password);
+        const user = this.users.find((user) => user.getUserName() === userName && user.getPassword() === password);
         if (user) {
             console.log("=========================================");
             console.log("||             S U C C E S S           ||");
@@ -65,13 +65,30 @@ class LoginSystem {
         }
     }
     viewUsers() {
-        const userRecords = this.users.map(user => ({
+        const userRecords = this.users.map((user) => ({
             userName: user.getUserName(),
             userType: user instanceof Admin_1.Admin ? "Admin" : "Passenger",
             role: user.getRole(),
-            registeredDate: user.getRegisteredDate()
+            registeredDate: user.getRegisteredDate(),
         }));
         console.table(userRecords);
+    }
+    removeUser(userName) {
+        const userIndex = this.users.findIndex((user) => user.getUserName() === userName);
+        if (userIndex === -1) {
+            console.log("=========================================");
+            console.log("||             E R R O R               ||");
+            console.log("=========================================");
+            console.log(`|| User ${userName} not found.         ||`);
+            console.log("=========================================");
+            return;
+        }
+        this.users.splice(userIndex, 1);
+        console.log("=========================================");
+        console.log("||             S U C C E S S           ||");
+        console.log("=========================================");
+        console.log(`|| User ${userName} removed successfully. ||`);
+        console.log("=========================================");
     }
 }
 exports.LoginSystem = LoginSystem;
