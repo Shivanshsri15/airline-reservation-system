@@ -1,5 +1,6 @@
 import { generateIdFunc } from "../../utils/generateIds";
 import { getRegisterDate } from "../../utils/getRegisterDate";
+import { FlightInterface } from "../FlightInterface";
 import { User } from "../User"; 
 export class Passenger implements User {
     protected id: string;
@@ -7,7 +8,8 @@ export class Passenger implements User {
     constructor(
         protected userName: string,
         protected password: string,
-        protected role: "admin" | "passenger" = "passenger"
+        protected role: "admin" | "passenger" = "passenger",
+        protected flights: FlightInterface[] = []
     ) {
         this.id = generateIdFunc("passenger");
         this.registeredDate = getRegisterDate();
@@ -26,5 +28,11 @@ export class Passenger implements User {
     }
     getRegisteredDate(): string {
         return this.registeredDate;
+    }
+    getUserFlights(): FlightInterface[] {
+        return this.flights;
+    }
+    addFlightToUser(flight: FlightInterface): void {
+        this.flights.push(flight);
     }
 }

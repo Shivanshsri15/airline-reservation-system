@@ -4,21 +4,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminDashboard = void 0;
-const AdminSystem_1 = require("../systems/AdminSystem");
 const readline_sync_1 = __importDefault(require("readline-sync"));
 const Flight_1 = require("../models/Classes/Flight");
-const flightSystem = new AdminSystem_1.AdminSystem();
-const adminDashboard = (loginSystem) => {
+const adminDashboard = (flightSystem, loginSystem) => {
     let choice;
     do {
         console.log("");
-        console.log("=========================================");
-        console.log("||          A D M I N   D A S H B O A R D ||");
-        console.log("=========================================");
-        console.log("|| 1. Add Flight                        ||");
-        console.log("|| 2. View All Flights                  ||");
-        console.log("|| 3. Logout                            ||");
-        console.log("=========================================");
+        console.log("┌──────────────────────────────────────────────────────┐");
+        console.log("│              A D M I N   D A S H B O A R D           │");
+        console.log("├────┬─────────────────────────────────────────────────┤");
+        console.log("│ 1. │ Add Flight                                      │");
+        console.log("│ 2. │ View All Flights                                │");
+        console.log("│ 3. │ Search Flight                                   │");
+        console.log("│ 4. │ Delete Flight                                   │");
+        console.log("│ 5. │ View Users                                      │");
+        console.log("│ 6. │ Logout                                          │");
+        console.log("└────┴─────────────────────────────────────────────────┘");
         choice = readline_sync_1.default.question("=====> Please enter your choice: ");
         switch (choice) {
             case "1":
@@ -32,46 +33,57 @@ const adminDashboard = (loginSystem) => {
                 flightSystem.addFlight(newFlight);
                 break;
             case "2":
-                console.log("");
-                console.log("");
-                console.log("\n=========================================");
-                console.log("||         A V A I L A B L E   F L I G H T S         ||");
-                console.log("=========================================");
-                console.log("");
-                console.log("");
                 const flights = flightSystem.getFlights();
                 if (flights.length === 0) {
-                    console.log("||         No flights available.                   ||");
-                    console.log("=========================================");
+                    console.log("No flights available.");
                 }
                 else {
-                    flights.forEach((flight, idx) => {
-                        console.log("");
-                        console.log("");
-                        console.log("=========================================");
-                        console.log(`|| Flight #${idx + 1}`);
-                        console.log("=========================================");
-                        console.log(`|| Flight ID      : ${flight.getFlightId()}`);
-                        console.log(`|| Source         : ${flight.getSource()}`);
-                        console.log(`|| Destination    : ${flight.getDestination()}`);
-                        console.log(`|| Departure Date : ${flight.getDepartureDate()}`);
-                        console.log(`|| Price          : ₹${flight.getPrice()}`);
-                        console.log(`|| Duration       : ${flight.getDuration()} hours`);
-                        console.log("=========================================");
-                        console.log("|| Seat Map:");
-                        flight.displaySeatMap();
-                        console.log("=========================================\n");
-                        console.log("");
-                        console.log("");
-                    });
+                    const tableData = flights.map((flight, idx) => ({
+                        "#": idx + 1,
+                        "Flight ID": flight.getFlightId(),
+                        "Source": flight.getSource(),
+                        "Destination": flight.getDestination(),
+                        "Departure Date": flight.getDepartureDate(),
+                        "Price (₹)": flight.getPrice(),
+                        "Duration (hrs)": flight.getDuration()
+                    }));
+                    console.table(tableData);
                 }
                 break;
             case "3":
+                const src = readline_sync_1.default.question("-> Enter Source: ");
+                const dest = readline_sync_1.default.question("-> Enter Destination: ");
+                const depDate = readline_sync_1.default.question("-> Enter Departure Date (YYYY-MM-DD): ");
+                const foundFlights = flightSystem.seachFlight(src, dest, depDate);
+                if (foundFlights.length === 0) {
+                    console.log("No flights found for the given criteria.");
+                }
+                else {
+                    const tableData = foundFlights.map((flight, idx) => ({
+                        "#": idx + 1,
+                        "Flight ID": flight.getFlightId(),
+                        "Source": flight.getSource(),
+                        "Destination": flight.getDestination(),
+                        "Departure Date": flight.getDepartureDate(),
+                        "Price (₹)": flight.getPrice(),
+                        "Duration (hrs)": flight.getDuration()
+                    }));
+                    console.table(tableData);
+                }
+                break;
+            case "4":
+                const delId = readline_sync_1.default.question("-> Enter Flight ID to delete: ");
+                flightSystem.deleteFlight(delId);
+                break;
+            case "5":
+                loginSystem.viewUsers();
+                break;
+            case "6":
                 console.log("Logging out...");
                 break;
             default:
                 console.log("Invalid choice. Please try again.");
         }
-    } while (choice !== "3");
+    } while (choice !== "6");
 };
 exports.adminDashboard = adminDashboard;

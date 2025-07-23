@@ -54,10 +54,28 @@ export class Flight implements FlightInterface {
     console.log("\n Seat Map (XX = Booked)");
     this.seats.forEach(row => {
       const rowDisplay = row.map(seat =>
-        seat.isBooked ? "XX  " : seat.seatNumber.padEnd(4)
+        seat.isBooked ? "--  " : seat.seatNumber.padEnd(4)
       ).join(" ");
       console.log(rowDisplay);
     });
     }
-    
+    bookSeat(flightId: string, seatToBeBooked: string): boolean {
+    if (this.flightId !== flightId) {
+        console.log(`Flight ID ${flightId} does not match this flight.`);
+        return false;
+    }
+    for (let row of this.seats) {
+        for (let seat of row) {
+            if (seat.seatNumber === seatToBeBooked) {
+                if (seat.isBooked) {
+                    return false; 
+                }
+                seat.isBooked = true;
+                seat.seatNumber = "--";
+                return true;
+            }
+        }
+    }
+    return false; 
+}
 }
