@@ -6,4 +6,5 @@ export interface FlightInterface {
   getPrice(): number;
   getDuration(): number;
   displaySeatMap(): void;
+  bookSeat(flightId:string,seatNumber: string): void;
 }

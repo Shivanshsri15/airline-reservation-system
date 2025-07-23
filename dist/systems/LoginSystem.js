@@ -26,6 +26,7 @@ class LoginSystem {
         console.log("=========================================");
         console.log(`|| User ${userName} registered successfully. ||`);
         console.log("=========================================");
+        return newPassenger;
     }
     registerAdmin(userName, password) {
         const newPassenger = new Admin_1.Admin(userName, password);
@@ -67,7 +68,7 @@ class LoginSystem {
     viewUsers() {
         const userRecords = this.users.map((user) => ({
             userName: user.getUserName(),
-            userType: user instanceof Admin_1.Admin ? "Admin" : "Passenger",
+            userType: user.getRole(),
             role: user.getRole(),
             registeredDate: user.getRegisteredDate(),
         }));
@@ -89,6 +90,33 @@ class LoginSystem {
         console.log("=========================================");
         console.log(`|| User ${userName} removed successfully. ||`);
         console.log("=========================================");
+    }
+    addFlightToUser(userName, flightId) {
+        const userIndex = this.users.findIndex((user) => user.getUserName() === userName);
+        if (userIndex === -1) {
+            console.log("=========================================");
+            console.log("||             E R R O R               ||");
+            console.log("=========================================");
+            console.log(`|| User ${userName} not found.         ||`);
+            console.log("=========================================");
+            return;
+        }
+        const user = this.users[userIndex];
+        if (user instanceof Passenger_1.Passenger) {
+            user.addFlightToUser(flightId);
+            console.log("=========================================");
+            console.log("||             S U C C E S S           ||");
+            console.log("=========================================");
+            console.log(`|| Flight ${flightId.getFlightId()} added to ${userName}'s bookings. ||`);
+            console.log("=========================================");
+        }
+        else {
+            console.log("=========================================");
+            console.log("||             E R R O R               ||");
+            console.log("=========================================");
+            console.log(`|| User ${userName} is not a passenger. ||`);
+            console.log("=========================================");
+        }
     }
 }
 exports.LoginSystem = LoginSystem;
